@@ -1,0 +1,106 @@
+{
+  "name": "dsh-carbon",
+  "version": "0.3.0",
+  "description": "Track the carbon footprint of your DeepSeek Harness sessions, with every factor sourced and graded by confidence",
+  "type": "module",
+  "license": "MIT",
+  "main": "lib/host/index.mjs",
+  "icon": "icon.svg",
+  "bin": {
+    "dsh-carbon": "bin/dsh-carbon.mjs"
+  },
+  "exports": {
+    ".": "./lib/host/index.mjs",
+    "./client": "./lib/client.js",
+    "./core": "./lib/core/carbon.mjs",
+    "./sessions": "./lib/core/sessions.mjs",
+    "./report": "./lib/core/report.mjs",
+    "./factors": "./lib/factors/factors.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json",
+    "./cross-checks": "./lib/factors/cross-checks.json",
+    "./history": "./lib/core/history.mjs",
+    "./timeline": "./lib/core/timeline.mjs",
+    "./card": "./lib/core/card.mjs",
+    "./badge": "./lib/core/badge.mjs",
+    "./pr": "./lib/core/pr.mjs",
+    "./heat": "./lib/core/heat.mjs",
+    "./whale": "./lib/core/whale.mjs",
+    "./format": "./lib/core/format.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "src",
+    "scripts",
+    "tools",
+    "cordis.patch.yml",
+    "icon.svg",
+    "README.md",
+    "LICENSE",
+    "test",
+    "docs"
+  ],
+  "scripts": {
+    "derive": "node tools/derive-factors.mjs",
+    "build:client": "node scripts/build-client.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node --test test/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.15"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "carbon",
+    "co2",
+    "emissions",
+    "sustainability",
+    "web-ui",
+    "history"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    },
+    "engines": {
+      "dsh": ">=0.2.1-rc.3"
+    }
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "homepage": "https://github.com/ValenscoA/dsh-carbon#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ValenscoA/dsh-carbon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ValenscoA/dsh-carbon/issues"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "$comment": [
+    "Third-party per-query cross-checks. These are not factors and never enter the",
+    "arithmetic. They exist because dsh-carbon's V4.1-Flash row is derived, and a",
+    "transparent outside estimate is worth showing next to it — provided its limits",
+    "are stated as plainly as the row's.",
+    "",
+    "Know Your Compute is a Tier-3 estimator for models without disclosures. Its",
+    "DeepSeek-V3 page says 2.0 Wh for a medium prompt, but the primary paper's three",
+    "China measurements are 2.777 / 8.864 / 13.162 Wh for 100/300, 1,000/1,000 and",
+    "10,000/1,500. 2.0 Wh is close to the Azure medium point (2.165 Wh), so that page",
+    "appears to pair an Azure energy reading with the China grid. That is exactly why",
+    "the site is a cross-check and not a source of factors."
+  ],
+  "accessed": "2026-10-28",
+  "items": [
+    {
+      "id": "kyc-v4-flash",
+      "source": "Know Your Compute",
+      "url": "https://www.knowyourcompute.com/models/deepseek-v4-flash",
+      "dataDate": "2026-07",
+      "tier": "estimated",
+      "model": "DeepSeek-V4-Flash",
+      "whPerQuery": 1.0,
+      "gramsPerQuery": 0.53,
+      "gridGramsPerKwh": 525,
+      "verdict": "order-of-magnitude",
+      "note": "A Tier-3 estimate for the sibling V4-Flash, not a measurement of V4.1-Flash. At the paper's short shape (100 input / 300 output) this tool's V4.1-Flash factor implies 1.02 Wh and, on the site's 525 g/kWh grid, 0.53 g — the site reports 1.0 Wh and 0.53 g. At 1,000 / 1,000 the factor implies 3.4 Wh, and the site does not publish which prompt shape its figure uses, so the agreement is shape-dependent rather than exact."
+    },
+    {
+      "id": "kyc-v4-pro",
+      "source": "Know Your Compute",
+      "url": "https://www.knowyourcompute.com/models/deepseek-v4-pro",
+      "dataDate": "2026-07",
+      "tier": "estimated",
+      "model": "DeepSeek-V4-Pro",
+      "whPerQuery": 6.0,
+      "gramsPerQuery": 3.1,
+      "gridGramsPerKwh": 525,
+      "verdict": "band-top",
+      "note": "Six times the site's V4-Flash figure. At the short shape this sits at the top of this tool's 0.5–6× band for V4-Pro. It argues the point estimate may be low, not that it is wrong; both numbers are estimates."
+    },
+    {
+      "id": "kyc-v3",
+      "source": "Know Your Compute",
+      "url": "https://www.knowyourcompute.com/models/deepseek-v3",
+      "dataDate": "2026-07",
+      "tier": "peer-reviewed (site label)",
+      "model": "DeepSeek-V3",
+      "whPerQuery": 2.0,
+      "gramsPerQuery": 1.1,
+      "gridGramsPerKwh": 525,
+      "verdict": "not-used",
+      "note": "Not used: the paper's China points are 2.777 / 8.864 / 13.162 Wh, and 2.0 Wh matches the Azure medium point (2.165 Wh) rather than the China row. The page pairs that energy with the China grid, so its carbon figure mixes fleets."
+    }
+  ]
+}
