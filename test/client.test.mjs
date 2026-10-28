@@ -2,20 +2,40 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import React from 'react';
-import * as jsxRuntime from 'react/jsx-runtime';
-import ReactDOMServer from 'react-dom/server';
 import { en, zh } from '../src/client/locales.js';
 
-const { createElement: h } = React;
-const { renderToStaticMarkup } = ReactDOMServer;
+/* React is a devDependency, because the shipped bundle never contains it: the
+ * shell's module table supplies `react` and `react/jsx-runtime` at run time.
+ * A plain `git clone && node --test` has no node_modules, and crashing there
+ * would make the first thing a visitor runs look broken. So the browser half
+ * skips itself, loudly, and the arithmetic still runs. */
+let React;
+let jsxRuntime;
+let ReactDOMServer;
+try {
+  React = (await import('react')).default;
+  jsxRuntime = await import('react/jsx-runtime');
+  ReactDOMServer = (await import('react-dom/server')).default;
+} catch {
+  // Left undefined; the tests below skip.
+}
+
+const hasReact = React !== undefined && ReactDOMServer !== undefined;
+const SKIP = 'run `npm install` first: the browser half needs React, which the bundle does not contain';
+const clientTest = hasReact ? test : (name) => test(name, { skip: SKIP }, () => {});
+
+const { createElement: h } = React ?? {};
+const { renderToStaticMarkup } = ReactDOMServer ?? {};
 
 /* Load the built bundle exactly as the shell does: a script that registers a
  * factory on `window.__ModuleLoader__`. This tests the artifact that ships, not
  * a source rewrite. */
 let registration;
-globalThis.window = { __ModuleLoader__: { load(value) { registration = value; } } };
-await import(`${pathToFileURL(new URL('../lib/client.js', import.meta.url).pathname).href}?test=${Date.now()}`);
+let bundle;
+if (hasReact) {
+  globalThis.window = { __ModuleLoader__: { load(value) { registration = value; } } };
+  await import(`${pathToFileURL(new URL('../lib/client.js', import.meta.url).pathname).href}?test=${Date.now()}`);
+}
 
 function requireStub(id) {
   if (id === 'react') return React;
@@ -23,7 +43,7 @@ function requireStub(id) {
   throw new Error(`unexpected require("${id}")`);
 }
 
-const bundle = registration.factory(requireStub);
+if (hasReact) bundle = registration.factory(requireStub);
 
 function translate(locale = 'en') {
   const dictionary = locale === 'zh' ? zh : en;
@@ -94,7 +114,7 @@ function fakeDocument() {
   return { document, nodes };
 }
 
-test('the bundle registers a main panel and its sidebar row', () => {
+clientTest('the bundle registers a main panel and its sidebar row', () => {
   assert.equal(registration.id, 'dsh-carbon');
   assert.equal(bundle.name, 'dsh-carbon');
   assert.deepEqual(bundle.inject, ['slots', 'locale']);
@@ -126,7 +146,7 @@ test('the bundle registers a main panel and its sidebar row', () => {
   }
 });
 
-test('the panel renders its header and loading state without a host', () => {
+clientTest('the panel renders its header and loading state without a host', () => {
   const { ctx, registrations } = makeCtx();
   bundle.apply(ctx);
   const main = registrations.find((entry) => entry.meta.name === 'main');
@@ -145,7 +165,7 @@ test('the panel renders its header and loading state without a host', () => {
   assert.match(html, /Method/);
 });
 
-test('the panel keeps its Chinese copy when the locale changes', () => {
+clientTest('the panel keeps its Chinese copy when the locale changes', () => {
   const { ctx, registrations } = makeCtx('zh');
   bundle.apply(ctx);
   const main = registrations.find((entry) => entry.meta.name === 'main');
@@ -157,7 +177,7 @@ test('the panel keeps its Chinese copy when the locale changes', () => {
   assert.match(html, /\u6982\u89c8/);
 });
 
-test('session rows show grams, tokens and their confidence tier', () => {
+clientTest('session rows show grams, tokens and their confidence tier', () => {
   const { SessionList } = bundle.__test;
   const html = renderToStaticMarkup(h(SessionList, {
     t: translate('en'),
@@ -187,7 +207,7 @@ test('session rows show grams, tokens and their confidence tier', () => {
   assert.match(html, /12345678/);
 });
 
-test('model rows show the share and the alias match', () => {
+clientTest('model rows show the share and the alias match', () => {
   const { ModelList } = bundle.__test;
   const html = renderToStaticMarkup(h(ModelList, {
     t: translate('en'),
@@ -223,7 +243,7 @@ test('model rows show the share and the alias match', () => {
   assert.match(html, /Measured/);
 });
 
-test('the method view renders every factor, its band and its source link', () => {
+clientTest('the method view renders every factor, its band and its source link', () => {
   const { MethodView } = bundle.__test;
   const html = renderToStaticMarkup(h(MethodView, {
     t: translate('en'),
@@ -305,7 +325,7 @@ test('the method view renders every factor, its band and its source link', () =>
   assert.match(html, /href="https:\/\/www\.knowyourcompute\.com\/models\/deepseek-v4-flash"/);
 });
 
-test('grams, percentages and costs use the same thresholds as the CLI', () => {
+clientTest('grams, percentages and costs use the same thresholds as the CLI', () => {
   const { formatGrams, percent, usd } = bundle.__test;
   assert.deepEqual(formatGrams(0), { value: '0', unit: 'g' });
   assert.deepEqual(formatGrams(238.7), { value: '239', unit: 'g' });
@@ -317,7 +337,7 @@ test('grams, percentages and costs use the same thresholds as the CLI', () => {
   assert.equal(usd(0.2484), '$0.2484');
 });
 
-test('the heat tint runs green to yellow to red and clamps at both ends', () => {
+clientTest('the heat tint runs green to yellow to red and clamps at both ends', () => {
   const { heatTone } = bundle.__test;
 
   assert.equal(heatTone(0).band, 'low');
@@ -339,7 +359,7 @@ test('the heat tint runs green to yellow to red and clamps at both ends', () => 
   assert.match(heatTone(5000).color, /^hsl\(2\.0 /);
 });
 
-test('the hero wears the heat tone and names its band', () => {
+clientTest('the hero wears the heat tone and names its band', () => {
   const { Hero } = bundle.__test;
   const data = {
     totals: {

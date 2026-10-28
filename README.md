@@ -208,6 +208,7 @@ npm run build:client     # rebuild lib/client.js from src/client/
 ## Tests
 
 ```bash
+npm test                 # 65 tests; `npm install` first for the 9 browser tests
 node --test test/*.test.mjs
 ```
 
@@ -216,6 +217,8 @@ node --test test/*.test.mjs
 ## Publishing
 
 Nothing in this package is tied to the author's machine: no absolute paths, no hard-coded home directory, no network call on any read path. The store is per-user at `~/.dsh/carbon/history.jsonl` (override with `DSH_CARBON_HISTORY`), and the plugin writes nothing else.
+
+A plain `git clone && node --test test/*.test.mjs` runs the arithmetic without installing anything: the nine browser tests skip themselves with a note, because React is a devDependency and the shipped bundle never contains it.
 
 A `npm pack` tarball installs cleanly into an empty project and produces a report against any `DSH_HOME`; the core test files also run from the installed package. Before publishing, set two fields, because both are placeholders by omission:
 
