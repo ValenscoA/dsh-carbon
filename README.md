@@ -52,16 +52,26 @@ The plugin ships a browser half alongside the host routes: a **Carbon** row in t
 
 ## Install
 
-```bash
-# CLI only
-node bin/dsh-carbon.mjs report
+**As a plugin** — the GUI is this half; the CLI comes with it.
 
-# as a profile plugin, from a local checkout
+```bash
 cd ~/.dsh/profiles/desktop
-pnpm add /path/to/dsh-carbon
+pnpm add dsh-carbon
 ```
 
-Then add `dsh-carbon` to `dsh.profile.bundles` in the profile's `package.json`, and restart the harness once so the browser half is discovered.
+Then add `"dsh-carbon"` to `dsh.profile.bundles` in that profile's `package.json` and restart the harness once, so the browser half is discovered. Without npm, the same tarball is attached to every [release](https://github.com/ValenscoA/dsh-carbon/releases):
+
+```bash
+pnpm add https://github.com/ValenscoA/dsh-carbon/releases/download/v0.3.0/dsh-carbon-0.3.0.tgz
+```
+
+**The CLI alone**, on Node 22.15 or newer:
+
+```bash
+npx dsh-carbon report
+```
+
+From a clone instead: `node bin/dsh-carbon.mjs report`.
 
 ## Commands
 
@@ -220,10 +230,20 @@ Nothing in this package is tied to the author's machine: no absolute paths, no h
 
 A plain `git clone && node --test test/*.test.mjs` runs the arithmetic without installing anything: the nine browser tests skip themselves with a note, because React is a devDependency and the shipped bundle never contains it.
 
-A `npm pack` tarball installs cleanly into an empty project and produces a report against any `DSH_HOME`; the core test files also run from the installed package. Before publishing, set two fields, because both are placeholders by omission:
+A `npm pack` tarball installs cleanly into an empty project and produces a report against any `DSH_HOME`; the core test files also run from the installed package.
 
-- **`homepage`** — the badge markdown links wherever this points, and the page's *Copy badge* button reads it from the same field. Without it, the link falls back to the harness docs.
-- **`repository`** — so npm and the registry can find the source.
+It ships by two routes, and they carry the same bytes: the npm package `dsh-carbon`, and a `.tgz` attached to each GitHub release for anyone who would rather not depend on the registry. `homepage` and `repository` are set, because the badge markdown and the page's *Copy badge* button link there.
+
+Releasing a new version:
+
+```bash
+npm test                 # `prepublishOnly` runs it anyway
+npm version patch        # or minor / major; commits and tags
+git push --follow-tags
+npm publish              # needs a granular token with "bypass 2FA"
+gh release create v$(node -p "require('./package.json').version") \
+  ./dsh-carbon-$(node -p "require('./package.json').version").tgz
+```
 
 The community registry at [awesome-dsh-plugin.com](https://awesome-dsh-plugin.com) indexes GitHub repositories rather than receiving submissions, and lists a one-line `install` command per entry (`dsh plugin --profile web add <package>`); 3,823 of its 7,406 entries are npm packages. There was no carbon-footprint plugin in it when this was written.
 
