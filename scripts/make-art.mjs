@@ -1,5 +1,5 @@
 /**
- * The artwork: the plugin icon, the repository logo, and the three banners.
+ * The artwork: the plugin icon, the repository logo, and the banners.
  *
  * Generated rather than drawn by hand for one reason: the whale in the art has
  * to be the whale in the app. `whaleSvg()` reads the same 36x18 character map
@@ -7,7 +7,7 @@
  * with it instead of leaving a stale logo behind.
  *
  * Run with `node scripts/make-art.mjs`; it writes `icon.svg` and the SVGs under
- * `docs/`. The PNGs are rasterised from those by `scripts/make-art.sh`.
+ * `docs/`. The PNGs are rasterised from those by `scripts/make-png.mjs`.
  */
 import { writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -144,6 +144,30 @@ function vertical() {
   ].join('');
 }
 
+/* The story frame is 9:16, so the composition needs air the other banners do
+ * not. Two bands are not ours to fill: Instagram draws its header over the top
+ * 250px and the reply bar over the bottom 340px, so every word sits inside
+ * 250..1580. The gap between the meta line and the command is the beat of the
+ * frame: the mark reads first, then the eye falls to the install line. */
+function story() {
+  const w = 1080;
+  const h = 1920;
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" role="img" aria-label="dsh-carbon: carbon footprint of your DeepSeek Harness sessions">`,
+    `<title>dsh-carbon</title>`,
+    `<rect width="${w}" height="${h}" fill="${BG}"/>`,
+    glow({ id: 'stGlow', cx: w / 2, cy: 582, r: 520, stop: 0.26 }),
+    `<g transform="translate(76 350)">${whale(ART_LOAD, 4.3)}</g>`,
+    text('dsh-carbon', { x: w / 2, y: 1010, size: 128, weight: 700, anchor: 'middle', spacing: '-4' }),
+    text(TAGLINE, { x: w / 2, y: 1076, size: 30, fill: MUTED, anchor: 'middle' }),
+    `<rect x="${w / 2 - 42}" y="1120" width="84" height="3" fill="${heatTone(3500).color}" opacity="0.85"/>`,
+    text(META, { x: w / 2, y: 1180, size: 20, fill: MUTED, anchor: 'middle', family: MONO }),
+    text('dsh plugin add dsh-carbon', { x: w / 2, y: 1386, size: 30, fill: INK, anchor: 'middle', family: MONO }),
+    text('github.com/ValenscoA/dsh-carbon', { x: w / 2, y: 1450, size: 24, fill: MUTED, anchor: 'middle', family: MONO }),
+    '</svg>',
+  ].join('');
+}
+
 /* ------------------------------------------------------------------ *
  * write
  * ------------------------------------------------------------------ */
@@ -154,6 +178,7 @@ const assets = [
   [join('docs', 'banner-horizontal.svg'), horizontal()],
   [join('docs', 'banner-square.svg'), square()],
   [join('docs', 'banner-vertical.svg'), vertical()],
+  [join('docs', 'banner-story.svg'), story()],
 ];
 
 for (const [file, svg] of assets) {

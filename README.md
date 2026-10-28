@@ -250,7 +250,7 @@ node --test test/*.test.mjs
 
 ## Artwork
 
-The icon, the logo and the three banners are generated from the same sprite the page renders, by `node scripts/make-art.mjs` for the SVG and a headless browser for the PNGs. The whale in the banner is the whale in the app, and a change to the sprite moves every asset with it.
+The icon, the logo and the four banners come from the same sprite the page renders. `node scripts/make-art.mjs` writes the SVG, and `node scripts/make-png.mjs` renders each one to PNG in a headless Chrome at its own size. The whale in the banner is the whale in the app, so a change to the sprite moves every asset with it.
 
 | File | Size | Use |
 |---|---|---|
@@ -258,7 +258,8 @@ The icon, the logo and the three banners are generated from the same sprite the 
 | `docs/logo.png` | 512×512 | avatar slot, README badge |
 | `docs/banner-horizontal.png` | 1280×640 | repository social preview, link cards |
 | `docs/banner-square.png` | 1080×1080 | square posts |
-| `docs/banner-vertical.png` | 1080×1350 | story-shaped posts |
+| `docs/banner-vertical.png` | 1080×1350 | portrait posts |
+| `docs/banner-story.png` | 1080×1920 | stories: content stays clear of the top 250px and the bottom 340px Instagram covers |
 
 ## Publishing
 
