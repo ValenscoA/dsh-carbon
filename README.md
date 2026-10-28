@@ -1,5 +1,11 @@
 # dsh-carbon
 
+<p>
+  <a href="https://www.npmjs.com/package/dsh-carbon"><img src="https://img.shields.io/npm/v/dsh-carbon" alt="npm version"></a>
+  <a href="https://github.com/ValenscoA/dsh-carbon/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+  <img src="https://img.shields.io/badge/tests-65-brightgreen" alt="65 tests">
+</p>
+
 Track the estimated carbon footprint of your [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/en/guide/quickstart) sessions, in the terminal and in the web GUI.
 
 It is a port of the idea behind [claude-carbon](https://github.com/gwittebolle/claude-carbon) — a local, token-based CO2e estimate with a sourced methodology — to DeepSeek. It is **not** a port of its numbers, because the evidence base for DeepSeek is much thinner, and pretending otherwise would be the whole problem.
