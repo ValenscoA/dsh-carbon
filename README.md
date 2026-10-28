@@ -1,5 +1,7 @@
 # dsh-carbon
 
+<p align="center"><img src="https://raw.githubusercontent.com/ValenscoA/dsh-carbon/main/docs/banner-horizontal.png" width="100%" alt="dsh-carbon: carbon footprint of your DeepSeek Harness sessions"></p>
+
 <p>
   <a href="https://www.npmjs.com/package/dsh-carbon"><img src="https://img.shields.io/npm/v/dsh-carbon" alt="npm version"></a>
   <a href="https://github.com/ValenscoA/dsh-carbon/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
@@ -9,8 +11,6 @@
 Track the estimated carbon footprint of your [DeepSeek Harness](https://deepseek-harness.github.io/deepseek-harness/en/guide/quickstart) sessions, in the terminal and in the web GUI.
 
 It is a port of the idea behind [claude-carbon](https://github.com/gwittebolle/claude-carbon) — a local, token-based CO2e estimate with a sourced methodology — to DeepSeek. It is **not** a port of its numbers, because the evidence base for DeepSeek is much thinner, and pretending otherwise would be the whole problem.
-
-<p align="center"><img src="https://raw.githubusercontent.com/ValenscoA/dsh-carbon/main/docs/panel.png" width="720" alt="The Carbon panel: a whale coloured by the footprint, the estimate with its plausible range, stripes per day coloured against the median day, and two bars showing share of tokens against share of CO2"></p>
 
 ```
   dsh-carbon — carbon footprint of your DeepSeek Harness sessions
@@ -39,6 +39,8 @@ It is a port of the idea behind [claude-carbon](https://github.com/gwittebolle/c
 ```
 
 ## The web GUI
+
+<p align="center"><img src="https://raw.githubusercontent.com/ValenscoA/dsh-carbon/main/docs/panel.png" width="720" alt="The Carbon panel: a whale coloured by the footprint, the estimate with its plausible range, stripes per day coloured against the median day, and two bars showing share of tokens against share of CO2"></p>
 
 The plugin ships a browser half alongside the host routes: a **Carbon** row in the sidebar and a page it opens in the main panel.
 
@@ -245,6 +247,18 @@ node --test test/*.test.mjs
 ```
 
 65 tests, including one that regenerates `lib/factors/factors.json` from `tools/derive-factors.mjs` and fails if the two have drifted — so the published numbers cannot silently diverge from their stated derivation. The report tests cover fleet scaling, the session-row cap, model roll-up and empty history; the client tests cover registration, both locales, the rendered rows, the method table, the heat scale's thresholds and hue direction, and the cross-check card. The store tests prove the two properties the design rests on — a session survives the deletion of its log, and an unchanged log is not parsed again — and the export tests pin the invariant that matters most: the buckets and the four kinds each sum to the window total, on every fleet.
+
+## Artwork
+
+The icon, the logo and the three banners are generated from the same sprite the page renders, by `node scripts/make-art.mjs` (SVG) and a headless browser for the PNGs — so the whale in the banner is the whale in the app, and a change to the sprite moves every asset with it.
+
+| File | Size | Use |
+|---|---|---|
+| `icon.svg` | 64×64 | the plugin's row in the harness |
+| `docs/logo.png` | 512×512 | avatar slot, README badge |
+| `docs/banner-horizontal.png` | 1280×640 | repository social preview, link cards |
+| `docs/banner-square.png` | 1080×1080 | square posts |
+| `docs/banner-vertical.png` | 1080×1350 | story-shaped posts |
 
 ## Publishing
 
