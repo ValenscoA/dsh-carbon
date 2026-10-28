@@ -498,6 +498,10 @@ function Stripes({ t, locale, data, onExportCard, onExportBadge, exporting }) {
   const unit = data.range?.unit ?? 'day';
   const median = data.medianBucketGrams ?? 0;
   const hovered = active === null ? null : buckets[active];
+  // A fresh install shows a window mostly older than the store itself. Without
+  // a word about it, that reads as a broken chart rather than a young one.
+  const withHistory = buckets.filter((bucket) => bucket.sessions > 0).length;
+  const thin = withHistory < Math.ceil(buckets.length / 2);
 
   const when = (bucket) => {
     const date = new Date(bucket.from);
@@ -541,6 +545,16 @@ function Stripes({ t, locale, data, onExportCard, onExportBadge, exporting }) {
           />
         ))}
       </div>
+
+      {thin && (
+        <p className="dshc-stripesNote">
+          {t('stripes.thin', {
+            filled: withHistory,
+            total: buckets.length,
+            unit: t(`stripes.unit.${unit}`),
+          })}
+        </p>
+      )}
 
       <div className="dshc-stripesFoot">
         <span className="dshc-stripesRead" aria-live="polite">

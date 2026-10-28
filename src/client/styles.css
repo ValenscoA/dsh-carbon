@@ -1452,6 +1452,13 @@
   background: var(--dshc-soft2);
 }
 
+.dshc-stripesNote {
+  margin: 10px 0 0;
+  color: var(--dshc-ink3);
+  font-size: 11px;
+  line-height: 17px;
+}
+
 .dshc-stripesFoot {
   display: flex;
   align-items: center;

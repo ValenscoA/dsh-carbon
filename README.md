@@ -58,6 +58,8 @@ The plugin ships a browser half alongside the host routes: a **Carbon** row in t
 
 ## Install
 
+Requirements: DeepSeek Harness **0.2.1-rc.3 or newer** (declared in `dsh.engines.dsh`), and Node **22.15+** only if you want the standalone CLI — the plugin itself runs inside the app.
+
 **As a plugin** — the GUI is this half; the CLI comes with it.
 
 ```bash
@@ -70,6 +72,18 @@ That forwards to `pnpm add` inside the profile *and* appends the package to `dsh
 "/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh" \
   plugin --profile desktop add dsh-carbon
 ```
+
+After the restart the page lives here — the **Carbon** row in the sidebar, between *Automation tasks* and *More*:
+
+<p align="center"><img src="https://raw.githubusercontent.com/ValenscoA/dsh-carbon/main/docs/sidebar.png" width="300" alt="The DeepSeek Harness sidebar: New Session, Plugins, Automation tasks, Carbon, More"></p>
+
+**`desktop` is a profile name, and it is whatever your install called it.** Check before you type it:
+
+```bash
+ls ~/.dsh/profiles
+```
+
+A mistyped name is not an error — `--profile destkop` quietly creates a second, empty profile and installs the plugin into it, where the app will never look. If the **Carbon** row does not appear after a restart, check that first.
 
 Without npm, the same tarball is attached to every [release](https://github.com/ValenscoA/dsh-carbon/releases) — `dsh plugin --profile desktop add <tarball URL>` accepts it too. By hand it is `pnpm add dsh-carbon` in the profile directory plus a `"dsh-carbon"` entry in `dsh.profile.bundles`.
 

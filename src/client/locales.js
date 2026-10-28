@@ -152,6 +152,7 @@ export const en = {
   'stripes.bucket': '{date}: {grams} over {sessions}',
   'stripes.weekOf': 'week of {date}',
   'stripes.hint': 'Point at a stripe for its date and total',
+  'stripes.thin': 'History covers {filled} of {total} periods. The store starts at your first sync, so sessions the harness had already pruned cannot be recovered — the row fills in as you work.',
   'stripes.sessionOne': '1 session',
   'stripes.sessions': '{count} sessions',
 
@@ -324,6 +325,7 @@ export const zh = {
   'stripes.bucket': '{date}\uff1a{grams}\uff0c{sessions}',
   'stripes.weekOf': '{date}\u90a3\u4e00\u5468',
   'stripes.hint': '\u60ac\u505c\u5728\u67d0\u4e00\u683c\u4e0a\u53ef\u770b\u65e5\u671f\u4e0e\u603b\u91cf',
+  'stripes.thin': '\u8bb0\u5f55\u8986\u76d6 {filled}/{total} \u4e2a\u5468\u671f\u3002\u5b58\u50a8\u5728\u9996\u6b21\u540c\u6b65\u65f6\u624d\u5f00\u59cb\uff0c\u4e4b\u524d\u5df2\u88ab\u6e05\u7406\u7684\u4f1a\u8bdd\u65e0\u6cd5\u6062\u590d\u2014\u2014\u968f\u7740\u4f7f\u7528\u4f1a\u9010\u6e10\u586b\u6ee1\u3002',
   'stripes.sessionOne': '1 \u4e2a\u4f1a\u8bdd',
   'stripes.sessions': '{count} \u4e2a\u4f1a\u8bdd',
 
