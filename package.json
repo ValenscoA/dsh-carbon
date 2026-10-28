@@ -1,6 +1,6 @@
 {
   "name": "dsh-carbon",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Track the carbon footprint of your DeepSeek Harness sessions, with every factor sourced and graded by confidence",
   "type": "module",
   "license": "MIT",
