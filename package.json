@@ -38,14 +38,14 @@
     "icon.svg",
     "README.md",
     "LICENSE",
-    "test",
-    "docs"
+    "test"
   ],
   "scripts": {
     "derive": "node tools/derive-factors.mjs",
     "build:client": "node scripts/build-client.mjs",
     "test": "node --test test/*.test.mjs",
-    "check": "node --test test/*.test.mjs"
+    "check": "node --test test/*.test.mjs",
+    "prepublishOnly": "node --test test/*.test.mjs"
   },
   "engines": {
     "node": ">=22.15"
@@ -102,5 +102,8 @@
   },
   "bugs": {
     "url": "https://github.com/ValenscoA/dsh-carbon/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
