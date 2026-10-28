@@ -61,15 +61,17 @@ The plugin ships a browser half alongside the host routes: a **Carbon** row in t
 **As a plugin** — the GUI is this half; the CLI comes with it.
 
 ```bash
-cd ~/.dsh/profiles/desktop
-pnpm add dsh-carbon
+dsh plugin --profile desktop add dsh-carbon
 ```
 
-Then add `"dsh-carbon"` to `dsh.profile.bundles` in that profile's `package.json` and restart the harness once, so the browser half is discovered. Without npm, the same tarball is attached to every [release](https://github.com/ValenscoA/dsh-carbon/releases):
+That forwards to `pnpm add` inside the profile *and* appends the package to `dsh.profile.bundles`, so the only manual step left is restarting the harness once, which is when the browser half is discovered. If `dsh` is not on your `PATH`, it ships inside the app:
 
 ```bash
-pnpm add https://github.com/ValenscoA/dsh-carbon/releases/download/v0.3.0/dsh-carbon-0.3.0.tgz
+"/Applications/DeepSeek Harness.app/Contents/Resources/runtime/cli/bin/dsh" \
+  plugin --profile desktop add dsh-carbon
 ```
+
+Without npm, the same tarball is attached to every [release](https://github.com/ValenscoA/dsh-carbon/releases) — `dsh plugin --profile desktop add <tarball URL>` accepts it too. By hand it is `pnpm add dsh-carbon` in the profile directory plus a `"dsh-carbon"` entry in `dsh.profile.bundles`.
 
 **The CLI alone**, on Node 22.15 or newer:
 
