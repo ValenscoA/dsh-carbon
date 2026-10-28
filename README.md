@@ -4,7 +4,7 @@ Track the estimated carbon footprint of your [DeepSeek Harness](https://deepseek
 
 It is a port of the idea behind [claude-carbon](https://github.com/gwittebolle/claude-carbon) — a local, token-based CO2e estimate with a sourced methodology — to DeepSeek. It is **not** a port of its numbers, because the evidence base for DeepSeek is much thinner, and pretending otherwise would be the whole problem.
 
-<p align="center"><img src="docs/panel.png" width="640" alt="The Carbon panel: a whale coloured by the footprint, the estimate with its plausible range, stripes per day coloured against the median day, and two bars showing share of tokens against share of CO2"></p>
+<p align="center"><img src="docs/panel.png" width="720" alt="The Carbon panel: a whale coloured by the footprint, the estimate with its plausible range, stripes per day coloured against the median day, and two bars showing share of tokens against share of CO2"></p>
 
 ```
   dsh-carbon — carbon footprint of your DeepSeek Harness sessions
@@ -95,6 +95,8 @@ Two decisions worth stating, because they are not the obvious ones:
 Sync is incremental: each row remembers the size and mtime of the log it came from, so an unchanged log is stat'd rather than parsed, and only a live session that has grown is read again. A session whose transcript the harness has pruned keeps its row — that is the entire point — and the page reports how many of the total come from logs it can no longer verify.
 
 ## Sharing
+
+<p align="center"><img src="docs/card.png" width="640" alt="The exported card: the estimate with its band, a whale coloured by it, stripes per day, and the sentence estimate, not a measurement"></p>
 
 `card.svg` is a 1200×630 card: the figure, its band, the fleet the factors assume, the stripes and the kind split, signed with the sentence it should be signed with — *estimate, not a measurement*. It is rendered on the host as SVG, so there is no browser, native module or network call on the export path; the page rasterises it in your own browser when you ask for a PNG. `card --out` and `badge --svg` write the same artefacts from the CLI.
 
