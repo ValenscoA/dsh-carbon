@@ -171,7 +171,7 @@ function report(options) {
   const hi = total.high * scale;
 
   console.log('');
-  console.log('  dsh-carbon \u2014 carbon footprint of your DeepSeek Harness sessions');
+  console.log('  dsh-carbon: carbon footprint of your DeepSeek Harness sessions');
   console.log('  ' + '\u2500'.repeat(62));
   const windowLabel =
     range.key === 'custom'
@@ -273,7 +273,7 @@ function report(options) {
   }
   console.log('');
   if (infra.key !== factors._default_infrastructure) {
-    console.log(`  Scaled to ${infra.key} (grid ${infra.cif} kgCO2e/kWh) \u2014 ${(1 / scale).toFixed(2)}x the default reading.`);
+    console.log(`  Scaled to ${infra.key} (grid ${infra.cif} kgCO2e/kWh), ${(1 / scale).toFixed(2)}x the default reading.`);
     console.log('');
   }
   console.log(`  Fleet assumed: ${factors._default_infrastructure} (grid ${factors._infrastructure[factors._default_infrastructure].cif} kgCO2e/kWh).`);
@@ -518,7 +518,7 @@ function recomputeCommand(options) {
   const { factors, rows, stats, path } = collect({ range: 'all', ...options });
   const timeline = buildTimeline({ factors, rows, infra: options.infra, range: 'all', maxSessions: 0 });
   console.log('');
-  console.log('  Recompute \u2014 repricing every stored session from its token counts');
+  console.log('  Recompute: repricing every stored session from its token counts');
   console.log('  ' + '\u2500'.repeat(58));
   console.log('');
   console.log(`  Store      ${path}`);
@@ -550,12 +550,12 @@ function methodology() {
   console.log('  Model table');
   for (const row of factors.models) {
     console.log('');
-    console.log(`  ${TIER_MARK[row.tier]} ${row.id}  \u2014 ${TIER_LABEL[row.tier]}`);
+    console.log(`  ${TIER_MARK[row.tier]} ${row.id}  (${TIER_LABEL[row.tier]})`);
     console.log(`    input ${row.input}  output ${row.output}  gCO2e/Mtok`);
     console.log(`    band ${row.band.low_multiplier}x \u2013 ${row.band.high_multiplier}x`);
     console.log(`    matches: ${row.match.join(', ')}`);
     if (row.fit !== undefined) {
-      console.log(`    fit quality: ${(row.fit.mape * 100).toFixed(1)}% mean error vs published points \u2014 ${row.fit.note}`);
+      console.log(`    fit quality: ${(row.fit.mape * 100).toFixed(1)}% mean error vs published points. ${row.fit.note}`);
     }
     console.log(`    source: ${row.source}`);
     if (row.derivation !== undefined) console.log(`    derivation: ${row.derivation}`);
